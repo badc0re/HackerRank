@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	//"reflect"
 	"strings"
 )
 
@@ -42,12 +43,10 @@ func (ll *LinkedList) print_ll() {
 		if current.next == nil {
 			break
 		}
-		if count == 10 {
-			break
-		}
 		current = current.next
 		count++
 	}
+	fmt.Println()
 }
 
 func (ll *LinkedList) move_elements(start_range int, end_range int, query int) {
@@ -117,15 +116,26 @@ func main() {
 	*/
 
 	var list_lenght, ops int
+	fmt.Scanf("%v %v", &list_lenght, &ops)
 	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Println(list_lenght, ops)
 
+	ll := LinkedList{tail: nil, head: nil, lenght: 0}
 	for scanner.Scan() {
-		temp := strings.Split(scanner.Text(), " ")
-		if list_lenght == 0 && ops == 0 {
-			list_lenght = strconv.Atoi(temp[0])
-			ops = strconv.Atoi(temp[1])
+		tmp := strings.Split(scanner.Text(), " ")
+		if ll.lenght == 0 {
+			for element := range tmp {
+				ll.add_element(element)
+			}
+		} else {
+			query, _ := strconv.Atoi(tmp[0])
+			start_range, _ := strconv.Atoi(tmp[1])
+			end_range, _ := strconv.Atoi(tmp[2])
+			define_query(ll, query, start_range, end_range)
+			ll.print_ll()
 		}
-		fmt.Println(strings.Split(scanner.Text(), " "))
+		ll.print_ll()
+
 		// kmt.Println(scanner.Text())
 	}
 
