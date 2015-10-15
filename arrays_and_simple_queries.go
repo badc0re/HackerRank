@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -115,12 +116,17 @@ func main() {
 		ll.print_ll()
 	*/
 
-	var a, b int
-	fmt.Scanf("%v %v", &a, &b)
+	var list_lenght, ops int
 	scanner := bufio.NewScanner(os.Stdin)
+
 	for scanner.Scan() {
+		temp := strings.Split(scanner.Text(), " ")
+		if list_lenght == 0 && ops == 0 {
+			list_lenght = strconv.Atoi(temp[0])
+			ops = strconv.Atoi(temp[1])
+		}
 		fmt.Println(strings.Split(scanner.Text(), " "))
-		fmt.Println(scanner.Text())
+		// kmt.Println(scanner.Text())
 	}
 
 	// fmt.Println(a, b)
