@@ -31,8 +31,8 @@ func (ll *LinkedList) add_element(element int) {
 	new_node := &node{next: nil, value: element}
 	ll.tail.next = new_node
 	ll.tail = ll.tail.next
-	//fmt.Println(ll)
-	ll.lenght++
+	//fmt.Println(ll.lenght)
+	ll.lenght += 1
 }
 
 func (ll *LinkedList) print_ll() {
@@ -64,13 +64,13 @@ func (ll *LinkedList) move_elements(start_range int, end_range int, query int) {
 	start_pnt := ll.head
 	start_count := 0
 	for ; start_count < start_range-1; start_count++ {
-		fmt.Println("start_range:", start_pnt)
+		// fmt.Println("start_range:", start_pnt)
 		start_pnt = start_pnt.next
 	}
 
 	end_pnt := start_pnt
 	for ; start_count < end_range; start_count++ {
-		fmt.Println("end_range:", start_count, end_range)
+		// fmt.Println("end_range:", start_count, end_range)
 		end_pnt = end_pnt.next
 	}
 
@@ -80,7 +80,7 @@ func (ll *LinkedList) move_elements(start_range int, end_range int, query int) {
 		start_pnt.next = end_pnt.next
 		end_pnt.next = temp
 
-		fmt.Println("head:", ll.head.next, "start:", start_pnt.next, "end:", end_pnt.next, "tmp:", temp)
+		// fmt.Println("head:", ll.head.next, "start:", start_pnt.next, "end:", end_pnt.next, "tmp:", temp)
 	} else if query == 2 {
 		ll.tail.next = start_pnt.next
 		start_pnt.next = end_pnt.next
@@ -118,23 +118,24 @@ func main() {
 	var list_lenght, ops int
 	fmt.Scanf("%v %v", &list_lenght, &ops)
 	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Println(list_lenght, ops)
 
 	ll := LinkedList{tail: nil, head: nil, lenght: 0}
 	for scanner.Scan() {
 		tmp := strings.Split(scanner.Text(), " ")
 		if ll.lenght == 0 {
-			for element := range tmp {
-				ll.add_element(element)
+			for _, element := range tmp {
+				temp_element, _ := strconv.Atoi(element)
+				ll.add_element(temp_element)
 			}
 		} else {
 			query, _ := strconv.Atoi(tmp[0])
 			start_range, _ := strconv.Atoi(tmp[1])
 			end_range, _ := strconv.Atoi(tmp[2])
 			define_query(ll, query, start_range, end_range)
+			fmt.Println(query, start_range, end_range)
 			ll.print_ll()
 		}
-		ll.print_ll()
+		// ll.print_ll()
 
 		// kmt.Println(scanner.Text())
 	}
