@@ -3,9 +3,9 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
-	//"reflect"
 	"strings"
 )
 
@@ -37,14 +37,12 @@ func (ll *LinkedList) add_element(element int) {
 
 func (ll *LinkedList) print_ll() {
 	current := ll.head.next
-	count := 0
 	for true {
 		fmt.Print(current.value, " ")
 		if current.next == nil {
 			break
 		}
 		current = current.next
-		count++
 	}
 	fmt.Println()
 }
@@ -79,17 +77,19 @@ func (ll *LinkedList) move_elements(start_range int, end_range int, query int) {
 		ll.head.next = start_pnt.next
 		start_pnt.next = end_pnt.next
 		end_pnt.next = temp
-
-		// fmt.Println("head:", ll.head.next, "start:", start_pnt.next, "end:", end_pnt.next, "tmp:", temp)
+		if ll.tail.next == end_pnt.next {
+			ll.tail = start_pnt
+		}
 	} else if query == 2 {
 		ll.tail.next = start_pnt.next
 		start_pnt.next = end_pnt.next
+		ll.tail = end_pnt
 		end_pnt.next = nil
 	}
 
 }
 
-func define_query(ll LinkedList, query int, start_range int, end_range int) {
+func define_query(ll LinkedList, query int, start_range int, end_range int) LinkedList {
 	if query == 1 {
 		//move_elements_front
 		ll.move_elements(start_range, end_range, query)
@@ -97,24 +97,10 @@ func define_query(ll LinkedList, query int, start_range int, end_range int) {
 		//move_elements_back
 		ll.move_elements(start_range, end_range, query)
 	}
+	return ll
 }
 
 func main() {
-	/*
-		ll := LinkedList{tail: nil, head: nil, lenght: 0}
-		ll.add_element(1)
-		ll.add_element(2)
-		ll.add_element(3)
-		ll.add_element(4)
-		ll.add_element(5)
-		fmt.Print("Before: ")
-		ll.print_ll()
-		fmt.Println()
-		define_query(ll, 1, 1, 5)
-		fmt.Print("Aflter: ")
-		ll.print_ll()
-	*/
-
 	var list_lenght, ops int
 	fmt.Scanf("%v %v", &list_lenght, &ops)
 	scanner := bufio.NewScanner(os.Stdin)
@@ -131,16 +117,9 @@ func main() {
 			query, _ := strconv.Atoi(tmp[0])
 			start_range, _ := strconv.Atoi(tmp[1])
 			end_range, _ := strconv.Atoi(tmp[2])
-			define_query(ll, query, start_range, end_range)
-			fmt.Println(query, start_range, end_range)
-			ll.print_ll()
+			ll = define_query(ll, query, start_range, end_range)
 		}
-		// ll.print_ll()
-
-		// kmt.Println(scanner.Text())
 	}
-
-	// fmt.Println(a, b)
-	// fmt.Scanf("%v", &a)
-	// fmt.Println(a)
+	fmt.Println(math.Abs(float64(ll.head.next.value - ll.tail.value)))
+	ll.print_ll()
 }
