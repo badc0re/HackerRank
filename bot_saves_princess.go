@@ -35,7 +35,7 @@ func main() {
 		input_text, _ := reader.ReadString('\n')
 		char_idx := strings.Index(input_text, "p")
 		if i == 0 && char_idx != -1 {
-            up_or_down = 0
+            		up_or_down = 0
 			princess = char_idx
 		} else if i > 0 && char_idx != -1 {
 			up_or_down = m
